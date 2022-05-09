@@ -1,0 +1,106 @@
+# Scraping data from fpl from https://fantasy.premierleague.com/api/bootstrap-static/
+# Which will be used in finding out of postion player.
+# Done by saejin123(Github)
+import requests
+import json
+import numpy as np
+import pandas as pd
+
+# Fpl API from where all data will be extracted
+link = "https://fantasy.premierleague.com/api/bootstrap-static/"
+response = requests.get(link)
+fpldata = json.loads(response.text)
+
+# All data will be saved in CSV file which will be then used for finding out of position player.
+Player_Data = []
+
+for i in fpldata["elements"]:
+    first_name = i['first_name']
+    second_name = i['second_name']
+    team = i['team']
+    now_cost = i['now_cost']
+    total_points = i['total_points']
+    points_per_game = i['points_per_game']
+    transfers_in = i['transfers_in']
+    transfers_out = i['transfers_out']
+    value_season = i['value_season']
+    minutes = i['minutes']
+    goals_scored = i['goals_scored']
+    assists = i['assists']
+    clean_sheets = i['clean_sheets']
+    goals_conceded = i['goals_conceded']
+    own_goals = i['own_goals']
+    penalties_saved = i['penalties_saved']
+    penalties_missed = i['penalties_missed']
+    yellow_cards = i['yellow_cards']
+    red_cards = i['red_cards']
+    saves = i['saves']
+    bonus = i['bonus']
+    bps = i['bps']
+    influence = i['influence']
+    creativity = i['creativity']
+    threat = i['threat']
+    ict_index = i['ict_index']
+    influence_rank = i['influence_rank']
+    creativity_rank = i['creativity_rank']
+    threat_rank = i['threat_rank']
+    ict_index_rank = i['ict_index_rank']
+
+    Individ_stat = [first_name, second_name, team, now_cost,
+                    total_points, points_per_game, transfers_in,
+                    transfers_out, value_season, minutes, goals_scored,
+                    assists, clean_sheets, goals_conceded, own_goals,
+                    penalties_saved, penalties_missed, yellow_cards,
+                    saves, bonus, bps, influence, creativity,
+                    threat, ict_index, influence_rank, creativity_rank,
+                    threat_rank, ict_index_rank]
+    Player_Data.append(Individ_stat)
+
+Player_Data = np.array(Player_Data, dtype=object)
+
+
+dataset = pd.DataFrame({'first_name': Player_Data[:, 0],
+                        'second_name': Player_Data[:, 1],
+                        'team': Player_Data[:, 2],
+                        'now_cost': Player_Data[:, 3],
+                        'total_points': Player_Data[:, 4],
+                        'points_per_game': Player_Data[:, 5],
+                        'transfers_in': Player_Data[:, 6],
+                        'transfers_out': Player_Data[:, 7],
+                        'value_season': Player_Data[:, 8],
+                        'minutes': Player_Data[:, 9],
+                        'goals_scored': Player_Data[:, 10],
+                        'assists': Player_Data[:, 11],
+                        'clean_sheets': Player_Data[:, 12],
+                        'goals_conceded': Player_Data[:, 13],
+                        'own_goals': Player_Data[:, 14],
+                        'penalties_saved': Player_Data[:, 15],
+                        'penalties_missed': Player_Data[:, 16],
+                        'yellow_cards': Player_Data[:, 17],
+                        'saves': Player_Data[:, 18],
+                        'bonus': Player_Data[:, 19],
+                        'bps': Player_Data[:, 20],
+                        'influence': Player_Data[:, 21],
+                        'creativity': Player_Data[:, 22],
+                        'threat': Player_Data[:, 23],
+                        'ict_index': Player_Data[:, 24],
+                        'influence_rank': Player_Data[:, 25],
+                        'creativity_rank': Player_Data[:, 26],
+                        'threat_rank': Player_Data[:, 27],
+                        'ict_index_rank': Player_Data[:, 28]})
+
+
+Player_Data ="Fpl_stat"
+dataset.to_csv(index=False, path_or_buf=Player_Data)
+
+
+"""
+    Index(['First Name', 'Surname', 'Team', 'Pos', '£Start', '£End',
+       'Total Points', 'Points Per Game', 'Transfers In', 'Transfers Out',
+       'Season Value', 'Minutes', 'Goals', 'Assists', 'Clean Sheets',
+       'Goals Conceded', 'Own Goals', 'Penalties Saved', 'Penalties Missed',
+       'Yellow Cards', 'Red Cards', 'Saves', 'Bonus Points', 'BPS',
+       'Influence', 'Creativity', 'Threat', 'ICT Index', 'Influence Rank',
+       'Creativity Rank', 'Threat Rank', 'ICT Index Rank'],
+      dtype='object')
+      """
