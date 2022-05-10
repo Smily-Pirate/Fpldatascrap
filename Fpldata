@@ -12,6 +12,7 @@ import pandas as pd
 
 # Fpl API from where all data will be extracted
 link = "https://fantasy.premierleague.com/api/bootstrap-static/"
+"""
 response = requests.get(link)
 fpldata = json.loads(response.text)
 
@@ -96,3 +97,14 @@ dataset = pd.DataFrame({'first_name': Player_Data[:, 0],
 
 Player_Data ="Fpl_stat"
 dataset.to_csv(index=False, path_or_buf=Player_Data)
+"""
+req = requests.get(link)
+json = req.json()
+json.keys()
+
+df_elements = pd.DataFrame(json['elements'])
+df_elements_types = pd.DataFrame(json['element_types'])
+df_teams = pd.DataFrame(json['teams'])
+print(df_elements.columns)
+
+
