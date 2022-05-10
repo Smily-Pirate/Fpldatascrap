@@ -1,6 +1,10 @@
 # Scraping data from fpl from https://fantasy.premierleague.com/api/bootstrap-static/
 # Which will be used in finding out of postion player.
-# Done by saejin123(Github)
+# Done by saejin123(Github) using it as a reference 
+
+# In this Fpl data is scraped from https://fantasy.premierleague.com/api/bootstrap-static/. 
+# This Data will be used for analysis(for now).
+
 import requests
 import json
 import numpy as np
@@ -11,7 +15,7 @@ link = "https://fantasy.premierleague.com/api/bootstrap-static/"
 response = requests.get(link)
 fpldata = json.loads(response.text)
 
-# All data will be saved in CSV file which will be then used for finding out of position player.
+# All data will be saved in CSV file which will be then used for analysis.
 Player_Data = []
 
 for i in fpldata["elements"]:
@@ -92,15 +96,3 @@ dataset = pd.DataFrame({'first_name': Player_Data[:, 0],
 
 Player_Data ="Fpl_stat"
 dataset.to_csv(index=False, path_or_buf=Player_Data)
-
-
-"""
-    Index(['First Name', 'Surname', 'Team', 'Pos', '£Start', '£End',
-       'Total Points', 'Points Per Game', 'Transfers In', 'Transfers Out',
-       'Season Value', 'Minutes', 'Goals', 'Assists', 'Clean Sheets',
-       'Goals Conceded', 'Own Goals', 'Penalties Saved', 'Penalties Missed',
-       'Yellow Cards', 'Red Cards', 'Saves', 'Bonus Points', 'BPS',
-       'Influence', 'Creativity', 'Threat', 'ICT Index', 'Influence Rank',
-       'Creativity Rank', 'Threat Rank', 'ICT Index Rank'],
-      dtype='object')
-      """
